@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         # select the pilot index
-        def partition(nums, start, end):
+        def partition1(nums, start, end):
             # i is the index of the number smaller than the current pilot
             i = start - 1
             #start is the traversal index
@@ -24,6 +24,25 @@ class Solution(object):
             i += 1
             nums[i], nums[end] = nums[end], nums[i]
             return i
+        def partition2(nums, start, end):
+            i = start - 1
+            #randomly choose pilot index
+            pilot = random.choice(range(start, end+1))
+            while(start <= end):
+                #skip when the traversal pointer equals to pilot
+                if nums[start] >= nums[pilot] and start != pilot:
+                    i += 1
+                    if i != start:
+                        nums[start],nums[i] = nums[i],nums[start]
+                        #update pilot when swap happens to pilot
+                        if i == pilot:
+                            pilot = start
+                start += 1
+            #set bound to the pilot pointer
+            if i < end:
+                i += 1
+            nums[i], nums[pilot] = nums[pilot], nums[i]
+            return i   
         def findhelper(nums, start, end, k):
             if start >= end:
                 return nums[k-1]
